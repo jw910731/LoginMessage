@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id 'kr.entree.spigradle' version '2.2.4'
+}
+
+group project.property("group")
+
+repositories {
+    mavenCentral()
+    spigotmc()
+}
+
+spigot {
+    name = project.property("pluginName")
+    authors = [project.property("author")]
+    apiVersion = project.property("apiVersion")
+    load = POSTWORLD
+    //    depends = ['']
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    compileOnly spigot('1.17')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
