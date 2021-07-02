@@ -8,6 +8,8 @@ plugins {
 
 group project.property("group")
 
+tasks.getByName("prepareSpigotPlugins").dependsOn(":shadowJar")
+
 repositories {
     mavenCentral()
     spigotmc()
@@ -18,7 +20,28 @@ spigot {
     authors = [project.property("author")]
     apiVersion = project.property("apiVersion")
     load = POSTWORLD
-    //    depends = ['']
+    commands {
+        motd {
+            description 'Send login announcement to user'
+            usage '/motd'
+        }
+        logmsg{
+            description 'Base command for Login Message'
+            usage '/logmsg [reload]'
+        }
+    }
+    permissions {
+        'logmsg.admin' {
+            description 'Allows to reload config'
+            defaults 'op'
+        }
+    }
+    debug {
+        args '--nojline', '--nogui', '--max-players', '10'
+        jvmArgs '-Xmx2G'
+        buildVersion '1.17'
+        serverPort 25564
+    }
 }
 
 java {
